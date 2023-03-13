@@ -17,4 +17,8 @@
 
 ### Requirements
 python==3.6\
-kafka-python3==3.0.0
+kafka-python3==3.0.0\
+uWSGI==2.0.21
+
+### 启动方式
+uwsgi --ini uwsgi.ini 
