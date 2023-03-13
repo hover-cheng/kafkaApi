@@ -13,7 +13,7 @@
     method:POST\
     data:{"authkey": "7eWdrGoSiMm4Kfhj"}
 
-4、kafka.conf为连接kafka所需的配置信息\
+4、kafka.conf为连接kafka所需的配置信息
 
 ### Requirements
 python==3.6\
