@@ -1,15 +1,15 @@
 ### 使用Bottle框架处理Kafka数据
 1、读取数据\
-    url:http://127.0.0.1:8888/kafka/<topic>\
+    url:http://127.0.0.1:9090/kafka/<topic>\
     method:GET
     
 2、写入数据\
-    url:http://127.0.0.1:8888/kafka\
+    url:http://127.0.0.1:9090/kafka\
     method:POST\
     data:{"topic": "topic", "msg": "message"}
 
 3、reload配置文件\
-    url:http://127.0.0.1:8888/kafka/reload\
+    url:http://127.0.0.1:9090/kafka/reload\
     method:POST\
     data:{"authkey": "7eWdrGoSiMm4Kfhj"}
 
