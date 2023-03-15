@@ -8,9 +8,10 @@ from functools import wraps
 import logging
 from logging.handlers import TimedRotatingFileHandler
 import os
+import re
 
 baseDir = os.path.dirname(os.path.abspath(__file__))
-logPath = 'E:\\log\\bottle\\myapp.log'
+logPath = 'logs/myapp.log'
 
 if not os.path.isdir(os.path.dirname(logPath)):
     # os.makedirs 可以视为os.mkdir的升级版本，它以递归的方式创建文件夹
