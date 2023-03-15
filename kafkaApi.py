@@ -2,7 +2,7 @@
 # 参考地址: http://bottlepy.org
 from bottle import Bottle, route, run, request, response
 import json
-from kafka3 import KafkaConsumer, KafkaProducer
+from kafka3 import KafkaConsumer, KafkaProducer, TopicPartition
 import time
 from functools import wraps
 import logging
@@ -176,6 +176,30 @@ def kafkaReload():
         msg = ("%s get kafka producer error %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), e))
         logger.info(msg)
         result = "topic or msg is not exist"
+        return json.dumps({'error': result})
+
+
+@app.route('/kafka/topic')
+def getKafkaTopic():
+    result = []
+    try:
+        topics = list(consumer.topics())
+        for topic in topics:
+            partitions = [TopicPartition(topic, p) for p in consumer.partitions_for_topic(topic)]
+            toff = consumer.end_offsets(partitions)
+            toff = [(key.partition, toff[key]) for key in toff.keys()]
+            toff.sort()
+            coff = [(x.partition, consumer.committed(x)) for x in partitions]
+            coff.sort()
+            toffSum = sum([x[1] for x in toff])
+            curSum = sum([x[1] for x in coff if x[1] is not None])
+            leftSum = toffSum - curSum
+            result.append({"topic": topic, "total offset": toff, "current offset": coff, "diff offset": leftSum})
+        return json.dumps({'data': result})
+    except Exception as e:
+        msg = ("%s get topics error %s" % (time.strftime("%Y-%m-%d %H:%M:%S", time.localtime()), e))
+        logger.info(msg)
+        result = "get topics error"
         return json.dumps({'error': result})
 
 
