@@ -17,7 +17,6 @@
     url:http://127.0.0.1:9090/kafka/topic\
     method:GET
 
-4、kafka.conf为连接kafka所需的配置信息
 
 ### Requirements
 python==3.6\
