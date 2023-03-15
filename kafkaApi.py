@@ -6,14 +6,31 @@ from kafka3 import KafkaConsumer, KafkaProducer, TopicPartition
 import time
 from functools import wraps
 import logging
+from logging.handlers import TimedRotatingFileHandler
 import os
 
 baseDir = os.path.dirname(os.path.abspath(__file__))
+logPath = 'E:\\log\\bottle\\myapp.log'
+
+if not os.path.isdir(os.path.dirname(logPath)):
+    # os.makedirs 可以视为os.mkdir的升级版本，它以递归的方式创建文件夹
+    # 设置exist_ok = True， 就不会引发FileExistsError
+    os.makedirs(os.path.dirname(logPath), exist_ok=True)
 
 logger = logging.getLogger('myapp')
 
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler('logs/myapp.log')
+# file_handler = logging.FileHandler()
+# interval 滚动周期，
+# when="MIDNIGHT", interval=1 表示每天0点为更新点，每天生成一个文件
+# backupCount  表示日志保存个数
+file_handler = TimedRotatingFileHandler(filename=logPath, when="MIDNIGHT", interval=1, backupCount=30)
+# filename="mylog" suffix设置，会生成文件名为mylog.2020-02-25.log
+file_handler.suffix = "%Y-%m-%d.log"
+# extMatch是编译好正则表达式，用于匹配日志文件名后缀
+# 需要注意的是suffix和extMatch一定要匹配的上，如果不匹配，过期日志不会被删除。
+file_handler.extMatch = re.compile(r"^\d{4}-\d{2}-\d{2}.log$")
+# 定义日志输出格式
 formatter = logging.Formatter('%(msg)s')
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
