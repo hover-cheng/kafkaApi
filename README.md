@@ -13,6 +13,10 @@
     method:POST\
     data:{"authkey": "7eWdrGoSiMm4Kfhj"}
 
+4、获取kafka的topic信息，并且获取topic的堆积信息\
+    url:http://127.0.0.1:9090/kafka/topic\
+    method:GET
+
 4、kafka.conf为连接kafka所需的配置信息
 
 ### Requirements
