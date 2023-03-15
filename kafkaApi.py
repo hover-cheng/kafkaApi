@@ -13,7 +13,7 @@ baseDir = os.path.dirname(os.path.abspath(__file__))
 logger = logging.getLogger('myapp')
 
 logger.setLevel(logging.INFO)
-file_handler = logging.FileHandler('E:\\logs\\bottle\\myapp.log')
+file_handler = logging.FileHandler('logs/myapp.log')
 formatter = logging.Formatter('%(msg)s')
 file_handler.setLevel(logging.DEBUG)
 file_handler.setFormatter(formatter)
