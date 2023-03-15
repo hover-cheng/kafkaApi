@@ -53,7 +53,6 @@ def getKafkaInfo(confName):
 
 
 def getConsumer(kafkaInfo):
-    bootstrap_servers = ['192.168.104.147:9092', '192.168.104.180:9092', '192.168.104.181:9092']
     try:
         consumer = KafkaConsumer(group_id=kafkaInfo['consumer']['group_id'],
                                  bootstrap_servers=kafkaInfo['consumer']['bootstrap_servers'],
@@ -84,7 +83,6 @@ def getConsumer(kafkaInfo):
 
 
 def getProducer(kafkaInfo):
-    bootstrap_servers = ['192.168.104.147:9092', '192.168.104.180:9092', '192.168.104.181:9092']
     try:
         producer = KafkaProducer(bootstrap_servers=kafkaInfo['producer']['bootstrap_servers'],
                                  security_protocol=kafkaInfo['producer']['security_protocol'],
