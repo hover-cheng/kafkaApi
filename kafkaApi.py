@@ -14,23 +14,20 @@ baseDir = os.path.dirname(os.path.abspath(__file__))
 logPath = 'logs/myapp.log'
 
 if not os.path.isdir(os.path.dirname(logPath)):
-    # os.makedirs 可以视为os.mkdir的升级版本，它以递归的方式创建文件夹
-    # 设置exist_ok = True， 就不会引发FileExistsError
     os.makedirs(os.path.dirname(logPath), exist_ok=True)
 
 logger = logging.getLogger('myapp')
 
 logger.setLevel(logging.INFO)
-# file_handler = logging.FileHandler()
 # interval 滚动周期，
 # when="MIDNIGHT", interval=1 表示每天0点为更新点，每天生成一个文件
 # backupCount  表示日志保存个数
 file_handler = TimedRotatingFileHandler(filename=logPath, when="MIDNIGHT", interval=1, backupCount=30)
-# filename="mylog" suffix设置，会生成文件名为mylog.2020-02-25.log
-file_handler.suffix = "%Y-%m-%d.log"
+# filename="mylog" suffix设置，会生成文件名为mylog.2020-02-25
+file_handler.suffix = "%Y-%m-%d"
 # extMatch是编译好正则表达式，用于匹配日志文件名后缀
 # 需要注意的是suffix和extMatch一定要匹配的上，如果不匹配，过期日志不会被删除。
-file_handler.extMatch = re.compile(r"^\d{4}-\d{2}-\d{2}.log$")
+file_handler.extMatch = re.compile(r"^\d{4}-\d{2}-\d{2}$")
 # 定义日志输出格式
 formatter = logging.Formatter('%(msg)s')
 file_handler.setLevel(logging.DEBUG)
@@ -49,7 +46,6 @@ def log_to_logger(fn):
     def _log_to_logger(*args, **kwargs):
         request_time = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime())
         actual_response = fn(*args, **kwargs)
-        # modify this to log exactly what you need:
         logger.info('%s %s %s %s %s' % (request.remote_addr,
                                         request_time,
                                         request.method,
@@ -220,9 +216,7 @@ def getKafkaTopic():
 
 
 # 与uwsgi一起使用时需要使用application = app
-# application = app
-# 单独运行时使用app.run()
-# app.run(host='0.0.0.0', port=8888, debug=True)
+# 单独使用python运行时使用app.run()
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=8888, debug=True)
 else:
